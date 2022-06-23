@@ -24,6 +24,23 @@ import java.util.logging.Logger;
  */
 public class EasyPoiTest {
 
+    /**
+    在controller中以附件的形式导出excel报表
+    */
+    @Test
+    public void exportExcel() throws Exception {
+        List<User> userList = getUser();
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("用户信息表", "用户表"), User.class, userList);
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode( "material物料报表.xlsx", "UTF-8"));
+        workbook.write(response.getOutputStream());
+
+        Logger logger = Logger.getLogger("EasyPoiTest");
+
+        logger.info("导出用户信息表");
+
+    }
 
 
     @Test
